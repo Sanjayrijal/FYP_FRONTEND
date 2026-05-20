@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { apiUrl } from "../../config/api.js";
 
 export default function SpinWheel({ spin, onClose, onSpun }) {
   const [spinning, setSpinning] = useState(false);
@@ -10,7 +11,7 @@ export default function SpinWheel({ spin, onClose, onSpun }) {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5001/api/loyalty/spin",
+        apiUrl("/api/loyalty/spin"),
         { spinId: spin._id },
         { headers: { Authorization: `Bearer ${token}` } },
       );

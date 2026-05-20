@@ -2,6 +2,7 @@ import axios from "axios";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs.jsx";
 import Footer from "../Footer/Footer";
 
@@ -21,7 +22,7 @@ export default function Wishlist() {
         return;
       }
 
-      const res = await axios.get("http://localhost:5001/api/users/favorites", {
+      const res = await axios.get(apiUrl("/api/users/favorites"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFavorites(res.data.data || []);
@@ -38,7 +39,7 @@ export default function Wishlist() {
       if (!token) return;
 
       await axios.post(
-        "http://localhost:5001/api/users/favorites/remove",
+        apiUrl("/api/users/favorites/remove"),
         { futsalId },
         { headers: { Authorization: `Bearer ${token}` } },
       );

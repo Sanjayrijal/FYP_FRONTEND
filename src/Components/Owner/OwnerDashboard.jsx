@@ -1,15 +1,16 @@
 import axios from "axios";
 import {
-  Bell,
-  Building2,
-  CalendarCheck,
-  DollarSign,
-  LayoutGrid,
-  Plus,
-  Users,
+    Bell,
+    Building2,
+    CalendarCheck,
+    DollarSign,
+    LayoutGrid,
+    Plus,
+    Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import OwnerSidebar from "./OwnerSidebar";
 
 export default function OwnerDashboard() {
@@ -34,12 +35,9 @@ export default function OwnerDashboard() {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get(
-        "http://localhost:5001/api/owner/dashboard/stats",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await axios.get(apiUrl("/api/owner/dashboard/stats"), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setStats(res.data.data);
       setLoading(false);
     } catch (error) {
@@ -51,12 +49,9 @@ export default function OwnerDashboard() {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get(
-        "http://localhost:5001/api/owner/notifications",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await axios.get(apiUrl("/api/owner/notifications"), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setNotifications(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching owner notifications:", error);
@@ -69,7 +64,7 @@ export default function OwnerDashboard() {
     try {
       const token = localStorage.getItem("ownerToken");
       await axios.put(
-        `http://localhost:5001/api/owner/notifications/${notificationId}/read`,
+        apiUrl(`/api/owner/notifications/${notificationId}/read`),
         {},
         { headers: { Authorization: `Bearer ${token}` } },
       );

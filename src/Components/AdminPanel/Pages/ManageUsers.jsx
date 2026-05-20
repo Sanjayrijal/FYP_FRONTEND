@@ -1,9 +1,10 @@
 import axios from "axios";
 import { CheckCircle, Pencil, Trash2, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../../config/api.js";
 
 const EMPTY_FORM = { name: "", email: "", contactNumber: "" };
-const BASE_URL = "http://localhost:5001/api/users";
+const BASE_URL = apiUrl("/api/users");
 
 export default function ManageUsers() {
   const [users, setUsers] = useState([]);
@@ -24,7 +25,7 @@ export default function ManageUsers() {
       const token = localStorage.getItem("adminToken");
       console.log("Token:", token);
 
-      const res = await axios.get("http://localhost:5001/api/users", {
+      const res = await axios.get(BASE_URL, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

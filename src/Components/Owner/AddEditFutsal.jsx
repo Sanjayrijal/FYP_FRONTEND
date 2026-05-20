@@ -3,13 +3,14 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
 import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents,
+    MapContainer,
+    Marker,
+    Popup,
+    TileLayer,
+    useMapEvents,
 } from "react-leaflet";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import OwnerSidebar from "./OwnerSidebar";
 
 // Fix default marker icon
@@ -76,12 +77,9 @@ export default function AddEditFutsal() {
   const fetchFutsal = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get(
-        `http://localhost:5001/api/owner/futsals/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await axios.get(apiUrl(`/api/owner/futsals/${id}`), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const futsal = res.data.data;
       setFormData({
         id: futsal.id,
@@ -118,16 +116,12 @@ export default function AddEditFutsal() {
 
       const token = localStorage.getItem("ownerToken");
 
-      const response = await axios.post(
-        "http://localhost:5001/api/owner/upload-image",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await axios.post(apiUrl("/api/owner/upload-image"), formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       if (response.data.secure_url) {
         const newPreviews = [...imagePreviews];
@@ -182,28 +176,20 @@ export default function AddEditFutsal() {
       submitData.append("images", JSON.stringify(validImages));
 
       if (isEdit) {
-        await axios.put(
-          `http://localhost:5001/api/owner/futsals/${id}`,
-          submitData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
+        await axios.put(apiUrl(`/api/owner/futsals/${id}`), submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
-        );
+        });
         setMessage("Futsal updated successfully!");
       } else {
-        await axios.post(
-          "http://localhost:5001/api/owner/futsals",
-          submitData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
+        await axios.post(apiUrl("/api/owner/futsals"), submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
-        );
+        });
         setMessage("Futsal created successfully! Pending admin approval.");
       }
 

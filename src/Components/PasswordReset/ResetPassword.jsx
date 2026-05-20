@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { PasswordInput } from "../PasswordInput";
 
 function ResetPassword() {
@@ -23,7 +24,7 @@ function ResetPassword() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/v1/auth/forget-password",
+        apiUrl("/api/v1/auth/forget-password"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

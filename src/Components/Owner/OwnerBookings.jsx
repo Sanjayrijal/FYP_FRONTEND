@@ -2,6 +2,7 @@ import axios from "axios";
 import { CheckCircle, MessageSquare, Send, X, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import OwnerSidebar from "./OwnerSidebar";
 export default function OwnerBookings() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function OwnerBookings() {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get("http://localhost:5001/api/owner/bookings", {
+      const res = await axios.get(apiUrl("/api/owner/bookings"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings(res.data.data);
@@ -51,7 +52,7 @@ export default function OwnerBookings() {
     try {
       const token = localStorage.getItem("ownerToken");
       await axios.put(
-        `http://localhost:5001/api/owner/bookings/${selectedBooking._id}/verify`,
+        apiUrl(`/api/owner/bookings/${selectedBooking._id}/verify`),
         {
           action,
           rejectionReason: rejectionReason.trim(),
@@ -79,7 +80,7 @@ export default function OwnerBookings() {
     try {
       const token = localStorage.getItem("ownerToken");
       await axios.post(
-        `http://localhost:5001/api/owner/bookings/${selectedBooking._id}/comment`,
+        apiUrl(`/api/owner/bookings/${selectedBooking._id}/comment`),
         { comment: comment.trim() },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -104,7 +105,7 @@ export default function OwnerBookings() {
     try {
       const token = localStorage.getItem("ownerToken");
       await axios.post(
-        `http://localhost:5001/api/owner/bookings/${selectedBooking._id}/cancel`,
+        apiUrl(`/api/owner/bookings/${selectedBooking._id}/cancel`),
         { reason: cancelReason.trim() },
         { headers: { Authorization: `Bearer ${token}` } },
       );

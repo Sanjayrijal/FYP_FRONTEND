@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import OwnerSidebar from "./OwnerSidebar";
 
 export default function OwnerFutsals() {
@@ -20,7 +21,7 @@ export default function OwnerFutsals() {
   const fetchFutsals = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get("http://localhost:5001/api/owner/futsals", {
+      const res = await axios.get(apiUrl("/api/owner/futsals"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFutsals(res.data.data);
@@ -36,7 +37,7 @@ export default function OwnerFutsals() {
 
     try {
       const token = localStorage.getItem("ownerToken");
-      await axios.delete(`http://localhost:5001/api/owner/futsals/${id}`, {
+      await axios.delete(apiUrl(`/api/owner/futsals/${id}`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchFutsals();

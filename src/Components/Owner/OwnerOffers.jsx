@@ -2,6 +2,7 @@ import axios from "axios";
 import { Edit2, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import OwnerSidebar from "./OwnerSidebar";
 
 export default function OwnerOffers() {
@@ -35,7 +36,7 @@ export default function OwnerOffers() {
   const fetchFutsals = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get("http://localhost:5001/api/owner/futsals", {
+      const res = await axios.get(apiUrl("/api/owner/futsals"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFutsals(res.data.data);
@@ -47,12 +48,9 @@ export default function OwnerOffers() {
   const fetchOffers = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get(
-        "http://localhost:5001/api/offers/owner/all",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await axios.get(apiUrl("/api/offers/owner/all"), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setOffers(res.data.data || []);
       setLoading(false);
     } catch (error) {
@@ -79,17 +77,13 @@ export default function OwnerOffers() {
 
       if (editingId) {
         // Update existing offer
-        await axios.put(
-          `http://localhost:5001/api/offers/${editingId}`,
-          formData,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
+        await axios.put(apiUrl(`/api/offers/${editingId}`), formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setMessage({ type: "success", text: "Offer updated successfully!" });
       } else {
         // Create new offer
-        await axios.post("http://localhost:5001/api/offers/create", formData, {
+        await axios.post(apiUrl("/api/offers/create"), formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage({ type: "success", text: "Offer created successfully!" });
@@ -134,7 +128,7 @@ export default function OwnerOffers() {
 
     try {
       const token = localStorage.getItem("ownerToken");
-      await axios.delete(`http://localhost:5001/api/offers/${id}`, {
+      await axios.delete(apiUrl(`/api/offers/${id}`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage({ type: "success", text: "Offer deleted successfully!" });

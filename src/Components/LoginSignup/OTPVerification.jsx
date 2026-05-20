@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../../config/api.js";
 
 export function OTPVerification({ email, onSuccess, switchToLogin }) {
   const [otp, setOtp] = useState("");
@@ -22,7 +23,7 @@ export function OTPVerification({ email, onSuccess, switchToLogin }) {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:5001/api/auth/verify-otp",
+        apiUrl("/api/auth/verify-otp"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,7 +59,7 @@ export function OTPVerification({ email, onSuccess, switchToLogin }) {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/auth/resend-otp",
+        apiUrl("/api/auth/resend-otp"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

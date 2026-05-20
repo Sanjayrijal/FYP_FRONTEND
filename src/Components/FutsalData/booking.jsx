@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { LoginSignup } from "../LoginSignup/LoginSignup";
 
 export default function Booking() {
@@ -105,7 +106,7 @@ export default function Booking() {
       };
 
       const response = await fetch(
-        "http://localhost:5001/api/futsal/booking/createBooking",
+        apiUrl("/api/futsal/booking/createBooking"),
         fetchOptions,
       );
 

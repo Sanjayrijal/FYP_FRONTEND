@@ -2,6 +2,7 @@ import axios from "axios";
 import { Camera, Mail, MapPin, Phone, Save, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import OwnerSidebar from "./OwnerSidebar";
 
 export default function OwnerProfile() {
@@ -38,12 +39,9 @@ export default function OwnerProfile() {
   const fetchOwnerProfile = async () => {
     try {
       const token = localStorage.getItem("ownerToken");
-      const res = await axios.get(
-        "http://localhost:5001/api/owner/auth/profile",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await axios.get(apiUrl("/api/owner/auth/profile"), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const owner = res.data || {};
       setProfileData({
@@ -113,7 +111,7 @@ export default function OwnerProfile() {
       };
 
       const response = await axios.put(
-        "http://localhost:5001/api/owner/auth/profile",
+        apiUrl("/api/owner/auth/profile"),
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },

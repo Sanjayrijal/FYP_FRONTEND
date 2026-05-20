@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { PasswordInput } from "../PasswordInput";
 
 export default function OwnerAuth() {
@@ -33,7 +34,7 @@ export default function OwnerAuth() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/owner/auth/register",
+        apiUrl("/api/owner/auth/register"),
         {
           name: formData.name,
           email: formData.email,
@@ -62,7 +63,7 @@ export default function OwnerAuth() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/owner/auth/verify-otp",
+        apiUrl("/api/owner/auth/verify-otp"),
         {
           email: formData.email,
           otp: formData.otp,
@@ -83,7 +84,7 @@ export default function OwnerAuth() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/owner/auth/login",
+        apiUrl("/api/owner/auth/login"),
         {
           email: formData.email,
           password: formData.password,

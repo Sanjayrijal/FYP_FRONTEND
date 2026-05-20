@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Footer from "../Components/Footer/Footer";
+import { apiUrl } from "../config/api.js";
 
 const EMPTY_PROFILE = {
   name: "",
@@ -198,7 +199,7 @@ export default function Profile() {
     }
 
     try {
-      const response = await axios.get("http://localhost:5001/api/users/me", {
+      const response = await axios.get(apiUrl("/api/users/me"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProfile(sanitizeProfile(response.data?.data));
@@ -220,7 +221,7 @@ export default function Profile() {
     try {
       setSavingSection(section);
       const response = await axios.put(
-        "http://localhost:5001/api/users/me",
+        apiUrl("/api/users/me"),
         {
           name: profile.name,
           email: profile.email,

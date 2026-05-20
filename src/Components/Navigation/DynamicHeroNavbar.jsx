@@ -1,15 +1,16 @@
 import axios from "axios";
 import {
-  Calendar,
-  Heart,
-  LogOut,
-  Menu,
-  Search,
-  Settings,
-  X,
+    Calendar,
+    Heart,
+    LogOut,
+    Menu,
+    Search,
+    Settings,
+    X,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 
 export function DynamicHeroNavbar() {
   const token = localStorage.getItem("token");
@@ -30,7 +31,7 @@ export function DynamicHeroNavbar() {
       }
 
       try {
-        const response = await axios.get("http://localhost:5001/api/users/me", {
+        const response = await axios.get(apiUrl("/api/users/me"), {
           headers: { Authorization: `Bearer ${token}` },
         });
 

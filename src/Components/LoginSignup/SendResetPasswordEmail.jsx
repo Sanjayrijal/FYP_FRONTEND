@@ -2,6 +2,7 @@ import { faEarthAmericas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 
 const SendResetPasswordEmail = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const SendResetPasswordEmail = () => {
     };
 
     try {
-      const url = `http://localhost:5001/api/v1/auth/forget-password`;
+      const url = apiUrl("/api/v1/auth/forget-password");
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

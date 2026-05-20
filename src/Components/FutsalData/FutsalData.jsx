@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Link, useLocation } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs.jsx";
 import Footer from "../Footer/Footer";
 
@@ -87,9 +88,7 @@ export default function FutsalData() {
 
     const fetchFutsalDetails = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5001/api/futsals/${futsal._id}`,
-        );
+        const res = await axios.get(apiUrl(`/api/futsals/${futsal._id}`));
         console.log("📸 Fetched futsal data:", res.data.data);
         console.log("📸 Images array:", res.data.data.images);
         setFutsal(res.data.data);
@@ -117,9 +116,7 @@ export default function FutsalData() {
     const fetchBookedSlots = async () => {
       try {
         console.log("🚀 Starting axios.get request...");
-        const res = await axios.get(
-          `http://localhost:5001/api/futsal/booking/getBookings`,
-        );
+        const res = await axios.get(apiUrl("/api/futsal/booking/getBookings"));
 
         console.log("=== DEBUG BOOKING FETCH ===");
         console.log("All bookings:", res.data);
@@ -291,9 +288,7 @@ export default function FutsalData() {
 
     const fetchOffers = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5001/api/offers/futsal/${futsal._id}`,
-        );
+        const res = await axios.get(apiUrl(`/api/offers/futsal/${futsal._id}`));
         setOffers(res.data.data || []);
         setLoadingOffers(false);
       } catch (err) {
@@ -337,7 +332,7 @@ export default function FutsalData() {
       }
 
       try {
-        const response = await axios.get("http://localhost:5001/api/users/me", {
+        const response = await axios.get(apiUrl("/api/users/me"), {
           headers: { Authorization: `Bearer ${token}` },
         });
         setReviewerId(String(response.data?.data?._id || ""));
@@ -449,7 +444,7 @@ export default function FutsalData() {
       };
 
       const response = await fetch(
-        "http://localhost:5001/api/futsal/booking/createBooking",
+        apiUrl("/api/futsal/booking/createBooking"),
         {
           method: "POST",
           headers: {
@@ -487,8 +482,8 @@ export default function FutsalData() {
       const token = localStorage.getItem("token");
       const endpoint =
         paymentMethod === "esewa"
-          ? "http://localhost:5001/api/payments/esewa/initiate"
-          : "http://localhost:5001/api/payments/khalti/initiate";
+          ? apiUrl("/api/payments/esewa/initiate")
+          : apiUrl("/api/payments/khalti/initiate");
 
       const res = await fetch(endpoint, {
         method: "POST",
@@ -567,7 +562,7 @@ export default function FutsalData() {
                 const token = localStorage.getItem("token");
                 if (token) {
                   axios
-                    .get("http://localhost:5001/api/users/me", {
+                    .get(apiUrl("/api/users/me"), {
                       headers: { Authorization: `Bearer ${token}` },
                     })
                     .then((response) => {

@@ -1,20 +1,21 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import {
-  Calendar,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  MapPin,
-  Trash2,
-  TrendingUp,
-  Zap,
+    Calendar,
+    CheckCircle,
+    ChevronDown,
+    Clock,
+    MapPin,
+    Trash2,
+    TrendingUp,
+    Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Breadcrumbs } from "../Components/Breadcrumbs/Breadcrumbs.jsx";
 import Footer from "../Components/Footer/Footer";
 import SpinWheel from "../Components/Loyalty/SpinWheel";
+import { apiUrl } from "../config/api.js";
 
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
@@ -35,7 +36,7 @@ export default function MyBookings() {
   const fetchPendingSpin = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5001/api/loyalty/pending", {
+      const res = await axios.get(apiUrl("/api/loyalty/pending"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data && res.data.length > 0) {
@@ -51,7 +52,7 @@ export default function MyBookings() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:5001/api/futsal/booking/user/myBookings",
+        apiUrl("/api/futsal/booking/user/myBookings"),
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setBookings(res.data.data || []);
@@ -69,7 +70,7 @@ export default function MyBookings() {
     setCancelling(id);
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5001/api/futsal/booking/${id}`, {
+      await axios.delete(apiUrl(`/api/futsal/booking/${id}`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchBookings();

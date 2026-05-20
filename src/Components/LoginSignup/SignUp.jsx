@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../../config/api.js";
 import { PasswordInput } from "../PasswordInput";
 import { OTPVerification } from "./OTPVerification";
 
@@ -26,7 +27,7 @@ export function Signup({ switchToLogin }) {
     }
 
     try {
-      const response = await fetch("http://localhost:5001/api/auth/register", {
+      const response = await fetch(apiUrl("/api/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

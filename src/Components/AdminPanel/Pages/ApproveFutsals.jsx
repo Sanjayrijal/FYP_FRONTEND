@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Building2, CheckCircle, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../../config/api.js";
 
 export default function ApproveFutsals() {
   const [futsals, setFutsals] = useState([]);
@@ -19,7 +20,7 @@ export default function ApproveFutsals() {
     try {
       const token = localStorage.getItem("adminToken");
       const res = await axios.get(
-        "http://localhost:5001/api/futsals/getfutsals",
+        apiUrl("/api/futsals/getfutsals"),
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -34,7 +35,7 @@ export default function ApproveFutsals() {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `http://localhost:5001/api/futsals/${id}`,
+        apiUrl(`/api/futsals/${id}`),
         { approved: true },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -77,7 +78,7 @@ export default function ApproveFutsals() {
       setDeleteSubmitting(true);
       const token = localStorage.getItem("adminToken");
       await axios.delete(
-        `http://localhost:5001/api/futsals/${deletingFutsal._id}`,
+        apiUrl(`/api/futsals/${deletingFutsal._id}`),
         {
           headers: { Authorization: `Bearer ${token}` },
           data: { deletionReason: reason },

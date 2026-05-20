@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { PasswordInput } from "../PasswordInput";
 
 export function ForgotPassword() {
@@ -30,7 +31,7 @@ export function ForgotPassword() {
 
     try {
       const response = await fetch(
-        " http://localhost:5001/api/v1/auth/reset-password",
+        apiUrl("/api/v1/auth/reset-password"),
         {
           method: "POST",
           headers: {

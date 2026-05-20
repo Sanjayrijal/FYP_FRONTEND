@@ -2,6 +2,7 @@ import axios from "axios";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import Footer from "../Footer/Footer";
 
 export function Home() {
@@ -18,7 +19,7 @@ export function Home() {
     const fetchFutsals = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5001/api/futsals/getFutsals",
+          apiUrl("/api/futsals/getFutsals"),
         );
         const allFutsals = res.data?.data || [];
         setFutsals(allFutsals.filter((futsal) => futsal.approved === true));
@@ -36,7 +37,7 @@ export function Home() {
       if (!token) return;
 
       try {
-        const response = await axios.get("http://localhost:5001/api/users/me", {
+        const response = await axios.get(apiUrl("/api/users/me"), {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCurrentUser({
@@ -48,7 +49,7 @@ export function Home() {
         // Fetch user's favorites from backend
         try {
           const favRes = await axios.get(
-            "http://localhost:5001/api/users/favorites",
+            apiUrl("/api/users/favorites"),
             { headers: { Authorization: `Bearer ${token}` } },
           );
           setFavorites(favRes.data.data || []);
@@ -111,13 +112,13 @@ export function Home() {
 
       if (isFav) {
         await axios.post(
-          "http://localhost:5001/api/users/favorites/remove",
+          apiUrl("/api/users/favorites/remove"),
           { futsalId: item._id },
           { headers: { Authorization: `Bearer ${token}` } },
         );
       } else {
         await axios.post(
-          "http://localhost:5001/api/users/favorites/add",
+          apiUrl("/api/users/favorites/add"),
           { futsalId: item._id },
           { headers: { Authorization: `Bearer ${token}` } },
         );
@@ -125,7 +126,7 @@ export function Home() {
 
       // Refresh favorites
       const favRes = await axios.get(
-        "http://localhost:5001/api/users/favorites",
+        apiUrl("/api/users/favorites"),
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setFavorites(favRes.data.data || []);

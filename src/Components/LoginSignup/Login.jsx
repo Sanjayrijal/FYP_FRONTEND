@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { PasswordInput } from "../PasswordInput";
 import { OTPVerification } from "./OTPVerification";
@@ -21,7 +22,7 @@ export function Login({ switchToSignup, onLoginSuccess }) {
     console.log("🔍 Login attempt:", formData.email);
 
     try {
-      const response = await fetch("http://localhost:5001/api/auth/login", {
+      const response = await fetch(apiUrl("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -143,8 +144,7 @@ export function Login({ switchToSignup, onLoginSuccess }) {
             type="button"
             className="flex items-center gap-2 border border-gray-300 rounded-xl px-6 py-2 bg-white hover:bg-gray-100 shadow transition"
             onClick={() =>
-              (window.location.href =
-                "http://localhost:5001/api/v1/auth/google")
+              (window.location.href = apiUrl("/api/v1/auth/google"))
             }
           >
             <img

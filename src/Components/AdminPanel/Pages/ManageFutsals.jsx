@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Building2, CheckCircle, Pencil, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../../config/api.js";
 
 const EMPTY_FORM = { name: "", location: "", pricePerHour: "" };
 
@@ -28,7 +29,7 @@ export default function ManageFutsals() {
     try {
       const token = localStorage.getItem("adminToken");
       const res = await axios.get(
-        "http://localhost:5001/api/futsals/getfutsals",
+        apiUrl("/api/futsals/getfutsals"),
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -43,7 +44,7 @@ export default function ManageFutsals() {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `http://localhost:5001/api/futsals/${id}`,
+        apiUrl(`/api/futsals/${id}`),
         { approved: true },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -86,7 +87,7 @@ export default function ManageFutsals() {
       setDeleteSubmitting(true);
       const token = localStorage.getItem("adminToken");
       await axios.delete(
-        `http://localhost:5001/api/futsals/${deletingFutsal._id}`,
+        apiUrl(`/api/futsals/${deletingFutsal._id}`),
         {
           headers: { Authorization: `Bearer ${token}` },
           data: { deletionReason: reason },
@@ -160,13 +161,13 @@ export default function ManageFutsals() {
       if (editingFutsal) {
         // Edit existing
         await axios.put(
-          `http://localhost:5001/api/futsals/${editingFutsal._id}`,
+          apiUrl(`/api/futsals/${editingFutsal._id}`),
           payload,
           { headers: { Authorization: `Bearer ${token}` } },
         );
       } else {
         // Add new
-        await axios.post("http://localhost:5001/api/futsals", payload, {
+        await axios.post(apiUrl("/api/futsals"), payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }

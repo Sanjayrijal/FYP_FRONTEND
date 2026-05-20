@@ -1,13 +1,14 @@
 import {
-  faBars,
-  faMagnifyingGlass,
-  faTimes,
+    faBars,
+    faMagnifyingGlass,
+    faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { UserCircle2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../config/api.js";
 
 export function Navigation() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,7 @@ export function Navigation() {
       }
 
       try {
-        const response = await axios.get("http://localhost:5001/api/users/me", {
+        const response = await axios.get(apiUrl("/api/users/me"), {
           headers: { Authorization: `Bearer ${token}` },
         });
 

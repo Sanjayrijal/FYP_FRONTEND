@@ -2,16 +2,17 @@ import axios from "axios";
 import { Building2, CalendarCheck, DollarSign, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
 } from "recharts";
+import { apiUrl } from "../../../config/api.js";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -38,21 +39,19 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("adminToken");
 
       // Fetch futsals
-      const futsalsRes = await axios.get(
-        "http://localhost:5001/api/futsals/getfutsals",
-      );
+      const futsalsRes = await axios.get(apiUrl("/api/futsals/getfutsals"));
       const futsalsData = futsalsRes.data.data || [];
       setFutsals(futsalsData);
 
       // Fetch users
-      const usersRes = await axios.get("http://localhost:5001/api/users", {
+      const usersRes = await axios.get(apiUrl("/api/users"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const usersData = usersRes.data.data || [];
 
       // Fetch bookings
       const bookingsRes = await axios.get(
-        "http://localhost:5001/api/futsal/booking/getBookings",
+        apiUrl("/api/futsal/booking/getBookings"),
         { headers: { Authorization: `Bearer ${token}` } },
       );
       const bookings = bookingsRes.data || [];
